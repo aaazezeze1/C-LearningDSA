@@ -20,7 +20,7 @@ namespace C_LearningDSA
 
                 if (input[mid] == target)
                 {
-                    Console.WriteLine(mid);
+                    Console.WriteLine("Target found at index: " + mid);
                     return mid;
                 }
                 else if (input[mid] < target)
@@ -32,7 +32,6 @@ namespace C_LearningDSA
                     last = mid - 1;
                 }
             }
-
             return -1;
         }
     }

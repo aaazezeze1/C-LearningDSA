@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,12 +11,12 @@ namespace C_LearningDSA
     {
         public static int Linear(int[] input, int target)
         {
-            for (int i = 0; i <= (input).Length; i++)
+            for (int index = 0; index <= (input).Length; index++)
             {
-                if ((input[i]) == target)
+                if ((input[index]) == target)
                 {
-                    Console.WriteLine(i);
-                    return i;
+                    Console.WriteLine("Target found at index: " + index);
+                    return index;
                 }
             }
             return -1;

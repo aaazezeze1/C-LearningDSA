@@ -11,6 +11,7 @@
             // Binary Search is faster because Linear Search is iterative
             //BinarySearch.Binary([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 9);
 
+            RecursiveBinary.Result();
         }
     }
 }
