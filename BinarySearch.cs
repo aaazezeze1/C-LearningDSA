@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace C_LearningDSA
 {
-    // java code from Treehouse website
+    // Java code from Treehouse website
     public static class BinarySearch
     {
         public static int Binary(int[] input, int target)

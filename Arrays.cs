@@ -13,12 +13,12 @@ namespace C_LearningDSA
         {
             int[] numbers = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
 
-            // Access
+            // Access - O(1) or Constant Time
             //Console.WriteLine(numbers[0]);
             //Console.WriteLine(numbers[1]);
 
             // Insert
-            // True Index - Linear Runtime, insert using index and moves the position
+            // True Index - O(n) or Linear Runtime, insert using index and moves the position
             // Appending - adds the item to the end 
 
             List<int> nums = new List<int>() { 1, 2, 3, 4, 5 };
@@ -46,7 +46,7 @@ namespace C_LearningDSA
         {
             int[] numbers = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
 
-            // Search
+            // Search - O(n) or Linear Runtime
             for (int i = 0; i < numbers.Length; i++)
             {
                 if (numbers.Contains(19))
@@ -63,7 +63,7 @@ namespace C_LearningDSA
         }
         public static int DeleteArr()
         {
-            // Delete
+            // Delete - O(n) or Linear Runtime
             int[] numbers = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
             numbers = numbers.Except(new int[] { 4 }).ToArray();
 
