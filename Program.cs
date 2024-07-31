@@ -1,143 +1,145 @@
-﻿namespace C_LearningDSA
+﻿using System;
+
+namespace C_LearningDSA
 {
     class Program
     {
-        static void Main(string[] args)
+        public class linkedList
         {
-            // This returns the index it was found in which is 8
-            //LinearSearch.Linear([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 9);
+            node head = null;
 
-            // The input has to be sorted first
-            // Binary Search is faster because Linear Search is iterative
-            //BinarySearch.Binary([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 9);
-
-            //RecursiveBinary.Result();
-
-            //Arrays.Arr();
-            //Arrays.SearchArr();
-            //Arrays.DeleteArr();
-
-            // Linked List - check this video for easier explanation https://youtu.be/8TGFk_zUS9A?si=yS-TKLUH_A4hOfTz
-            //Console.WriteLine("Add First:");
-            //LinkedList myList1 = new LinkedList();
-
-            //myList1.AddFirst("Hello");
-            //myList1.AddFirst("Magical");
-            //myList1.AddFirst("World");
-            //myList1.printAllNodes();
-
-            //Console.WriteLine();
-
-            //Console.WriteLine("Add Last:");
-            //LinkedList myList2 = new LinkedList();
-
-            //myList2.AddLast("Hello");
-            //myList2.AddLast("Magical");
-            //myList2.AddLast("World");
-            //myList2.printAllNodes();
-
-            // Merge Sort / Divide and Conquer
-            // sort items from random order to ascending order in array
-            // 3:04:21
-
-            // Divide: find the midpoint of the array or list and divide into sublists like binary search
-            // Conquer: recursively sort the sublists
-            // Combine: merge the sorted sublists into one list
-
-
-            // Merge Function Test
-            //int[] myArray = new int[] { 2, 3, 8, 15, 1, 4, 7, 11};
-            //// index 4 is the midpoint
-            //Merge(myArray, 0, 4, myArray.Length - 1);
-
-            //for (int i = 0; i < myArray.Length; i++)
-            //{
-            //    Console.Write($"{myArray[i]} ");
-            //}
-            //Console.Read();
-
-            // Merge Sort Function Test
-            int[] myArray = new int[] { 2, 3, 1, 8, 1, 5, 7, 11 };
-            MergeSort(myArray, 0, myArray.Length - 1);
-
-            for (int i = 0; i < myArray.Length; i++)
+            // node a, b;
+            public class node
             {
-                Console.Write($"{myArray[i]} ");
-            }
-            Console.Read();
+                public int val;
+                public node next;
 
-        }
-        // Merge Sort code from https://youtu.be/FW9ODUUBDpI?si=uoGaHihBmjlvm-la
-
-        // Merge only function
-        private static void Merge(int[] myArray, int left, int midpoint, int right)
-        {
-            // three pointers
-            int i, j, k;
-
-            int leftArrLength = midpoint - left;
-            int rightArrLength = right - midpoint + 1;
-
-            // left of the sublist or sub arrays
-            int[] leftArr = new int[leftArrLength];
-            int[] rightArr = new int[rightArrLength];
-
-            for (i = 0; i < leftArrLength; i++)
-            {
-                leftArr[i] = myArray[left + i];
-            }
-
-            for (i = 0; i < rightArrLength; i++)
-            {
-                rightArr[i] = myArray[midpoint + i];
-            }
-            i = 0; j = 0; k = left;
-
-            // compare both arrays
-            while (i < leftArrLength && j < rightArrLength)
-            {
-                if (leftArr[i] <= rightArr[j])
+                public node(int val)
                 {
-                    myArray[k++] = leftArr[i++];
+                    this.val = val;
+                }
+            }
+
+            node sortedMerge(node a, node b)
+            {
+                node result = null;
+                /* Base cases */
+                if (a == null)
+                    return b;
+                if (b == null)
+                    return a;
+
+                /* Pick either a or b, and recur */
+                if (a.val <= b.val)
+                {
+                    result = a;
+                    result.next = sortedMerge(a.next, b);
                 }
                 else
                 {
-                    myArray[k++] = rightArr[j++];
+                    result = b;
+                    result.next = sortedMerge(a, b.next);
                 }
+                return result;
             }
 
-            if (i == leftArrLength)
+            node mergeSort(node h)
             {
-                // left array is done, copy from right array
-                for (int ii = j; ii < rightArrLength; ii++)
+                // Base case : if head is null
+                if (h == null || h.next == null)
                 {
-                    myArray[k++] = rightArr[ii];
+                    return h;
                 }
+
+                // get the middle of the list
+                node middle = getMiddle(h);
+                node nextofmiddle = middle.next;
+
+                // set the next of middle node to null
+                middle.next = null;
+
+                // Apply mergeSort on left list
+                node left = mergeSort(h);
+
+                // Apply mergeSort on right list
+                node right = mergeSort(nextofmiddle);
+
+                // Merge the left and right lists
+                node sortedlist = sortedMerge(left, right);
+                return sortedlist;
             }
 
-            if (j == rightArrLength)
+            // Utility function to get the
+            // middle of the linked list
+            node getMiddle(node h)
             {
-                // right array is done, copy from left array
-                for (int ii = i; ii < leftArrLength; ii++)
+                // Base case
+                if (h == null)
+                    return h;
+                node fastptr = h.next;
+                node slowptr = h;
+
+                // Move fastptr by two and slow ptr by one
+                // Finally slowptr will point to middle node
+                while (fastptr != null)
                 {
-                    myArray[k++] = leftArr[ii];
+                    fastptr = fastptr.next;
+                    if (fastptr != null)
+                    {
+                        slowptr = slowptr.next;
+                        fastptr = fastptr.next;
+                    }
                 }
+                return slowptr;
             }
 
-        }
-        // Merge Sort Function - recursive 
-        public static void MergeSort(int[] myArray, int left, int right)
-        {
-            if(left < right)
+            // Add to linked list
+            void push(int new_data)
             {
-                int midpoint = (left + (right - 1)) / 2 + 1;
+                /* allocate node */
+                node new_node = new node(new_data);
+
+                /* link the old list of the new node */
+                new_node.next = head;
+
+                /* move the head to point to the new node */
+                head = new_node;
+            }
+
+            // Utility function to print the linked list
+            void printList(node headref)
+            {
+                while (headref != null)
+                {
+                    Console.Write(headref.val + " ");
+                    headref = headref.next;
+                }
+            }
+            static void Main(string[] args)
+            {
+                // Linked List Merge Sort - Code from GeeksForGeeks https://www.geeksforgeeks.org/merge-sort-for-linked-list/
+                // recursive divide and conquer similar to binary search
+                // 3:37:50
                 
-                MergeSort(myArray, left, midpoint - 1);
-                MergeSort(myArray, midpoint, right);
+                linkedList li = new linkedList();
+                /* 
+                * Let us create a unsorted linked list to test the functions 
+                * created. The list shall be a: 2->3->20->5->10->15 
+                */
+                li.push(15);
+                li.push(10);
+                li.push(5);
+                li.push(20);
+                li.push(3);
+                li.push(2);
 
-                // Merge the subarrays
-                Merge(myArray, left, midpoint, right);
+                // Apply merge Sort
+                li.head = li.mergeSort(li.head);
+                Console.Write("Sorted Linked List is: \n");
+                li.printList(li.head);
+
             }
+
         }
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace C_LearningDSA
 {
-    public class LinkedList
+    public class CustomLinkedList
     {
         // Linked lists are bad at searching
         // from Stackoverflow
