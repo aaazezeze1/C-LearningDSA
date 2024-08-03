@@ -4,142 +4,93 @@ namespace C_LearningDSA
 {
     class Program
     {
-        public class linkedList
+        static void Main(string[] args)
         {
-            node head = null;
+            // Sorting and Searching
+            // 4:15:18
 
-            // node a, b;
-            public class node
+            // Bogo Sort
+            // Code from https://www.w3resource.com/csharp-exercises/searching-and-sorting-algorithm/searching-and-sorting-algorithm-exercise-2.php
+            
+            // Initializing an unsorted list of integers
+            List<int> list = new List<int>() { 45, 23, 89, 67 };
+            Console.WriteLine("Sorting...");
+            // Calling the Bogo_sort function with optional parameters (announce and delay)
+            Bogo_sort(list, true, 5);
+            Console.WriteLine("Press any key to exit.");
+            Console.ReadKey();
+        }
+        // Function to perform Bogo sort
+        static void Bogo_sort(List<int> list, bool announce, int delay)
+        {
+            int iteration = 0;
+            // Loop until the list is sorted
+            while (!IsSorted(list))
             {
-                public int val;
-                public node next;
-
-                public node(int val)
+                if (announce)
                 {
-                    this.val = val;
+                    // Print the current iteration if announce is set to true
+                    Print_Iteration(list, iteration);
+                }
+                if (delay != 0)
+                {
+                    // Introduce a delay if delay parameter is non-zero
+                    System.Threading.Thread.Sleep(Math.Abs(delay));
+                }
+                // Rearrange the list elements randomly
+                list = Remap(list);
+                iteration++; // Increment iteration count
+            }
+
+            Print_Iteration(list, iteration); // Print the final sorted list
+            Console.WriteLine();
+            Console.WriteLine("Bogo_sort completed after {0} iterations.", iteration); // Display the total iterations
+        }
+
+        // Function to print the current iteration of the list
+        static void Print_Iteration(List<int> list, int iteration)
+        {
+            Console.Write("Bogo_sort iteration {0}: ", iteration);
+            for (int i = 0; i < list.Count; i++)
+            {
+                Console.Write(list[i]);
+                if (i < list.Count)
+                {
+                    Console.Write(" ");
+                }
+            }
+            Console.WriteLine();
+        }
+
+        // Function to check if the list is sorted
+        static bool IsSorted(List<int> list)
+        {
+            for (int i = 0; i < list.Count - 1; i++)
+            {
+                if (list[i] > list[i + 1])
+                {
+                    return false; // Returns false if the list is not sorted
                 }
             }
 
-            node sortedMerge(node a, node b)
+            return true; // Returns true if the list is sorted
+        }
+
+        // Function to rearrange the list elements randomly
+        static List<int> Remap(List<int> list)
+        {
+            int temp;
+            List<int> newList = new List<int>();
+            Random r = new Random();
+
+            // Randomly rearrange elements from the input list to a new list
+            while (list.Count > 0)
             {
-                node result = null;
-                /* Base cases */
-                if (a == null)
-                    return b;
-                if (b == null)
-                    return a;
-
-                /* Pick either a or b, and recur */
-                if (a.val <= b.val)
-                {
-                    result = a;
-                    result.next = sortedMerge(a.next, b);
-                }
-                else
-                {
-                    result = b;
-                    result.next = sortedMerge(a, b.next);
-                }
-                return result;
+                temp = (int)r.Next(list.Count);
+                newList.Add(list[temp]);
+                list.RemoveAt(temp);
             }
-
-            node mergeSort(node h)
-            {
-                // Base case : if head is null
-                if (h == null || h.next == null)
-                {
-                    return h;
-                }
-
-                // get the middle of the list
-                node middle = getMiddle(h);
-                node nextofmiddle = middle.next;
-
-                // set the next of middle node to null
-                middle.next = null;
-
-                // Apply mergeSort on left list
-                node left = mergeSort(h);
-
-                // Apply mergeSort on right list
-                node right = mergeSort(nextofmiddle);
-
-                // Merge the left and right lists
-                node sortedlist = sortedMerge(left, right);
-                return sortedlist;
-            }
-
-            // Utility function to get the
-            // middle of the linked list
-            node getMiddle(node h)
-            {
-                // Base case
-                if (h == null)
-                    return h;
-                node fastptr = h.next;
-                node slowptr = h;
-
-                // Move fastptr by two and slow ptr by one
-                // Finally slowptr will point to middle node
-                while (fastptr != null)
-                {
-                    fastptr = fastptr.next;
-                    if (fastptr != null)
-                    {
-                        slowptr = slowptr.next;
-                        fastptr = fastptr.next;
-                    }
-                }
-                return slowptr;
-            }
-
-            // Add to linked list
-            void push(int new_data)
-            {
-                /* allocate node */
-                node new_node = new node(new_data);
-
-                /* link the old list of the new node */
-                new_node.next = head;
-
-                /* move the head to point to the new node */
-                head = new_node;
-            }
-
-            // Utility function to print the linked list
-            void printList(node headref)
-            {
-                while (headref != null)
-                {
-                    Console.Write(headref.val + " ");
-                    headref = headref.next;
-                }
-            }
-            static void Main(string[] args)
-            {
-                // Linked List Merge Sort - Code from GeeksForGeeks https://www.geeksforgeeks.org/merge-sort-for-linked-list/
-                // recursive divide and conquer similar to binary search
-                // 3:37:50
-                
-                linkedList li = new linkedList();
-                /* 
-                * Let us create a unsorted linked list to test the functions 
-                * created. The list shall be a: 2->3->20->5->10->15 
-                */
-                li.push(15);
-                li.push(10);
-                li.push(5);
-                li.push(20);
-                li.push(3);
-                li.push(2);
-
-                // Apply merge Sort
-                li.head = li.mergeSort(li.head);
-                Console.Write("Sorted Linked List is: \n");
-                li.printList(li.head);
-
-            }
-
+            return newList; // Return the new list with rearranged elements
         }
     }
 }
