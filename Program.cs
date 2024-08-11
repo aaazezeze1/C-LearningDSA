@@ -7,44 +7,35 @@ namespace C_LearningDSA
         static void Main(string[] args)
         {
             // Sorting and Searching
-            // 4:21:00
+            // 4:31:25
 
-            // Selection Sort
-            // Code from https://www.geeksforgeeks.org/selection-sort-algorithm-2/
-            int[] arr = { 64, 25, 12, 22, 11 };
-            sort(arr);
-            Console.WriteLine("Sorted array");
-            printArray(arr);
+            // Recursion - not the most efficient way to add a list or array of numbers
+            int[] myArr = {1, 2, 3, 4, 5};
+            //myFunc(myArr);
+            Console.WriteLine(myRecurFunc(myArr, 0));
+
         }
-        static void sort(int[] arr)
+        static void myFunc(int[] myArr)
         {
-            int n = arr.Length;
-
-            // One by one move boundary of unsorted subarray
-            for (int i = 0; i < n - 1; i++)
+            int total = 0;
+            foreach (int number in myArr)
             {
-                // Find the minimum element in unsorted array
-                int min_idx = i;
-                for (int j = i + 1; j < n; j++)
-                    if (arr[j] < arr[min_idx])
-                        min_idx = j;
-                        // eto yung value ng minimum 
-                        Console.WriteLine(arr[min_idx]);
-
-                // Swap the found minimum element with the first
-                // element
-                int temp = arr[min_idx];
-                arr[min_idx] = arr[i];
-                arr[i] = temp;
+                total += number;
+            }
+            Console.WriteLine(total);
+        }
+        static int myRecurFunc(int[] myArr, int index)
+        {
+            if (myArr[index] == myArr[myArr.Length - 1])
+            {
+                //Console.WriteLine(index);
+                return myArr[myArr.Length - 1];
+            }
+            else
+            {
+                return myArr[index] + myRecurFunc(myArr, index + 1);
             }
         }
-        // Prints the array
-        static void printArray(int[] arr)
-        {
-            int n = arr.Length;
-            for (int i = 0; i < n; ++i)
-                Console.Write(arr[i] + " ");
-            Console.WriteLine();
-        }
+        
     }
 }
