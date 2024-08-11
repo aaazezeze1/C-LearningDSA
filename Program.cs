@@ -7,35 +7,43 @@ namespace C_LearningDSA
         static void Main(string[] args)
         {
             // Sorting and Searching
-            // 4:31:25
 
-            // Recursion - not the most efficient way to add a list or array of numbers
-            int[] myArr = {1, 2, 3, 4, 5};
-            //myFunc(myArr);
-            Console.WriteLine(myRecurFunc(myArr, 0));
+            // Quick Sort
+            // code from https://teamtreehouse.com/library/algorithms-sorting-and-searching/code-for-quicksort
+            var list = new List<int>() { 32, 100, 1, 2, 29, 28, 88, 3, 50, 67, 37, 1, 57, 20 };
+            var sortedList = Quicksort(list);
+            Console.WriteLine(String.Join(", ", sortedList));
+        }
+        public static List<int> Quicksort(List<int> list)
+        {
+            if (list.Count <= 1)
+            {
+                return list;
+            }
 
-        }
-        static void myFunc(int[] myArr)
-        {
-            int total = 0;
-            foreach (int number in myArr)
+            var lessThanPivot = new List<int>();
+            var greaterThanPivot = new List<int>();
+            int pivot = list[0];
+            int length = list.Count;
+            for (int i = 1; i < length; i++)
             {
-                total += number;
+                int currentValue = list[i];
+                if (currentValue <= pivot)
+                {
+                    lessThanPivot.Add(currentValue);
+                }
+                else
+                {
+                    greaterThanPivot.Add(currentValue);
+                }
             }
-            Console.WriteLine(total);
+            var sortedList = new List<int>();
+            sortedList.AddRange(Quicksort(lessThanPivot));
+            sortedList.Add(pivot);
+            sortedList.AddRange(Quicksort(greaterThanPivot));
+
+            return sortedList;
         }
-        static int myRecurFunc(int[] myArr, int index)
-        {
-            if (myArr[index] == myArr[myArr.Length - 1])
-            {
-                //Console.WriteLine(index);
-                return myArr[myArr.Length - 1];
-            }
-            else
-            {
-                return myArr[index] + myRecurFunc(myArr, index + 1);
-            }
-        }
-        
+
     }
 }
